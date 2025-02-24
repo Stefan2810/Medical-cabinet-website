@@ -16,13 +16,13 @@ This is a **Flask-based Medical System Web Application** that provides role-base
 ---
 
 ## Project Structure
-- Medical-System ├──> app.py
-- # Main Flask application ├──> db_queries.py
-- # Database connection and queries ├──> templates
-- # Frontend HTML templates (Jinja2) │ ├── admin.html
-- # Admin Dashboard │ ├── doctor.html # Doctor Dashboard │ ├── login.html
-- # Login Page │ ├── patient.html # Patient Dashboard │ ├── home.html
-- # Common Home Page ├──> home.html
+- # Medical-System  --> app.py
+- # Main Flask application --> db_queries.py
+- # Database connection and queries --> templates:
+  - # Frontend HTML templates (Jinja2)  admin.html
+  - # Admin Dashboard │ ├── doctor.html # Doctor Dashboard │ ├── login.html
+  - # Login Page │ ├── patient.html # Patient Dashboard │ ├── home.html
+  - # Common Home Page ├──> home.html
 - 
 
 ---
