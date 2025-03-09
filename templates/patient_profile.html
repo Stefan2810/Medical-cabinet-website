@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .profile-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+        }
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        strong {
+            color: #00796b;
+        }
+        .update-section {
+            display: none;
+            margin-top: 1rem;
+        }
+        input {
+            width: calc(100% - 2rem);
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #00796b;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 1rem;
+        }
+        button:hover {
+            background-color: #004d40;
+        }
+        
+        a {
+            display: inline-block;
+            margin-top: 1rem;
+            text-decoration: none;
+            background-color: #00796b;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        a:hover {
+            background-color: #004d40;
+        }
+    </style>
+    <script>
+        function toggleUpdateEmail() {
+            const section = document.getElementById('update-email-section');
+            section.style.display = section.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Patient Profile</h1>
+        <p>
+            <strong>Name:</strong> {{ profile.Nume }}
+        </p>
+        <p>
+            <strong>CNP:</strong> {{ profile.CNP }}
+        </p>
+        <p>
+            <strong>Email:</strong> {{ profile.Email }}
+            <button onclick="toggleUpdateEmail()">Update</button>
+        </p>
+        <div id="update-email-section" class="update-section">
+            <form method="POST" action="{{ url_for('patient_profile') }}">
+                <label for="new_email">New Email:</label>
+                <input type="email" id="new_email" name="new_email" required>
+                <button type="submit">Update Email</button>
+            </form>            
+        </div>
+        <p>
+            <strong>Phone Number:</strong> {{ profile.Nr_telefon }}
+        </p>
+        <p>
+            <strong>Address:</strong> {{ profile.Adresa }}
+        </p>
+        <a href="{{ url_for('patient_home') }}">Back to Home</a>
+    </div>
+</body>
+</html>

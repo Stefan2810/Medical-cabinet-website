@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Patient Email</title>
+</head>
+<body>
+    <h1>Update Patient Email</h1>
+    <form method="POST" action="/admin/update_patient_email">
+        <label for="patient_id">Patient ID:</label>
+        <input type="text" id="patient_id" name="patient_id" required><br>
+        <label for="new_email">New Email:</label>
+        <input type="email" id="new_email" name="new_email" required><br>
+        <button type="submit">Update Email</button>
+    </form>
+    <a href="/home">Back to Home</a>
+</body>
+</html>

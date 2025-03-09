@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #28a745;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 1rem 2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        table th {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            padding: 1rem;
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Doctor Dashboard</h1>
+        <p>Welcome, {{ session['user_name'] }}!</p>
+    </header>
+    <main>
+        <h2>Your Consultations</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Consultation ID</th>
+                    <th>Patient</th>
+                    <th>Conclusions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if consultations %}
+                    {% for consultation in consultations %}
+                    <tr>
+                        <td>{{ consultation['ID_consultatie'] }}</td>
+                        <td>{{ consultation['Pacient'] }}</td>
+                        <td>{{ consultation['Concluzii'] }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3">No consultations found.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <a class="btn" href="{{ url_for('doctor_home') }}">Home</a>
+    </main>
+    <footer>
+        <p>&copy; 2024 Medical System. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Schedule</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* Light blue background */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        /* Page Title Styles */
+        h1 {
+            color: #00796b; /* Medical teal color */
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem; /* Adjusted space from content */
+            font-weight: 650; /* Slightly bolder font weight */
+        }
+
+        /* Table Container */
+        div.table-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #00796b; /* Matching teal color */
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Light gray for alternate rows */
+        }
+
+        tr:hover {
+            background-color: #f1f1f1; /* Highlight on hover */
+        }
+
+        /* Link Styles */
+        a {
+            display: inline-block;
+            margin-top: 1rem;
+            text-decoration: none;
+            background-color: #00796b;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        a:hover {
+            background-color: #004d40; /* Darker teal on hover */
+            transform: translateY(-3px); /* Link lift effect */
+        }
+
+        a:active {
+            transform: translateY(1px); /* Link press effect */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            div.table-container {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            th, td {
+                font-size: 0.9rem;
+                padding: 0.6rem;
+            }
+            a {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="table-container">
+        <h1>Doctor Schedule</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Pacient</th>
+                    <th>Data</th>
+                    <th>Modifica data/ora</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if schedule %}
+                    {% for appointment in schedule %}
+                    <tr>
+                        <td>{{ appointment.ID_programare }}</td>
+                        <td>{{ appointment.Pacient }}</td>
+                        <td>{{ appointment.Data }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('doctor_schedule') }}">
+                                <input type="hidden" name="appointment_id" value="{{ appointment.ID_programare }}">
+                                <label for="new_date">Noua dată:</label>
+                                <input type="date" id="new_date" name="new_date" required>
+                                <label for="new_time">Noua oră :</label>
+                                <input type="time" id="new_time" name="new_time" required step="3600">
+                                <button type="submit">Modifică</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3">No appointments found.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('doctor_home') }}">Back to Home</a>
+    </div>
+</body>
+</html>

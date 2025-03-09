@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Patient</title>
+</head>
+<body>
+    <h1>Delete Patient</h1>
+    <p>Are you sure you want to delete this patient?</p>
+    <form method="POST" action="/admin/delete_patient/{{ patient_id }}">
+        <button type="submit">Yes, Delete</button>
+    </form>
+    <a href="/home">Cancel</a>
+</body>
+</html>

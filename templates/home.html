@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(to bottom right, #e9ecef, #dee2e6);
+            color: #343a40;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        main h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #007bff;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            margin: 0.5rem;
+            text-decoration: none;
+            background: linear-gradient(90deg, #17a2b8, #138496);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #138496, #117a8b);
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 1rem;
+            text-align: center;
+        }
+        th, td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+        }
+        th {
+            background: linear-gradient(90deg, #17a2b8, #138496);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tr:hover {
+            background-color: #e2e6ea;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Footer Styles */
+        footer {
+            margin-top: 2rem;
+            padding: 1rem;
+            text-align: center;
+            background: #343a40;
+            color: white;
+            font-size: 0.9rem;
+            border-top: 5px solid #007bff;
+        }
+        footer p {
+            margin: 0;
+        }
+
+        /* List Styles */
+        ul {
+            list-style: none;
+            margin: 1rem 0;
+            padding: 0;
+        }
+        ul li {
+            background: #e9ecef;
+            margin: 0.5rem 0;
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        ul li:hover {
+            background: #ced4da;
+            transform: translateX(5px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            main {
+                padding: 1rem;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+            }
+            table {
+                font-size: 0.9rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Medical System, {{ user_name }}</h1>
+    </header>
+    <main>
+        <div class="section">
+            {% if user_type == 'patient' %}
+                <div>
+                    <h2>Medicul/Medicii cei mai solicitați</h2>
+                    {% if data.single %}
+                        <p><strong>Nume:</strong> {{ data.single.Nume }}</p>
+                        <p><strong>Număr programări:</strong> {{ data.single.NrProgramari }}</p>
+                    {% elif data.multiple %}
+                        <p>Mai mulți medici sunt solicitați în mod egal:</p>
+                        <ul>
+                            {% for doctor in data.multiple %}
+                                <li>{{ doctor.Nume }} - {{ doctor.NrProgramari }} programări</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>{{ data.message }}</p>
+                    {% endif %}
+                </div>
+      
+                <a class="btn" href="{{ url_for('patient_view') }}">View Your Appointments</a>
+                <a class="btn" href="{{ url_for('patient_profile') }}">Manage Your Profile</a>
+            {% elif user_type == 'doctor' %}
+                {% if consultation_counts|default([]) %}
+                    <h3>Numar de pacienti/ doctor</h3>
+                    <table>
+                        <tr>
+                            <th>Doctor Name</th>
+                            <th>Number of Patients</th>
+                        </tr>
+                        {% for stat in consultation_counts %}
+                            <tr>
+                                <td>{{ stat[0]}}</td>
+                                <td>{{ stat[1] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p>No consultation found for any doctor.</p>
+                {% endif %}
+                {% if patients %}
+                    <h3>Lista pacientilor tai: </h3>
+                    <ul>
+                        {% for patient in patients %}
+                        <li>{{ patient[0] }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No patients found for this doctor.</p>
+                {% endif %}
+                <a class="btn" href="{{ url_for('doctor_view') }}">View Consultations</a>
+                <a class="btn" href="{{ url_for('doctor_schedule') }}">Manage Your Schedule</a>
+            {% elif user_type == 'admin' %}
+                <h3>Doctors</h3>
+                <table>
+                    <tr>
+                        <th>Doctor ID</th>
+                        <th>Doctor Name</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for doctor in doctors %}
+                        <tr>
+                            <td>{{ doctor[0] }}</td>
+                            <td>{{ doctor[1] }}</td>
+                            <td>
+                                <a class="btn" href="{{ url_for('patients_by_doctor', doctor_id=doctor[0]) }}">Patients</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <a class="btn" href="{{ url_for('admin_home') }}">Go to Admin Dashboard</a>
+            {% else %}
+                <p>Error: User type not recognized.</p>
+            {% endif %}
+        </div>
+        <a class="btn" href="/logout">Logout</a>
+    </main>
+    <footer>
+        <p>&copy; 2025 Medical System. All rights reserved.</p>
+    </footer>
+</body>
+</html>
